@@ -491,21 +491,6 @@ export type PuppeteerResponse = Puppeteer.Response;
   }
 
   /**
-   * Will match plugin dependencies against all currently registered plugins.
-   * Is being called by `puppeteer-extra` and used to require missing dependencies.
-   *
-   * @param  {Array<Object>} plugins
-   * @return {Set} - list of missing plugin names
-   *
-   * @private
-   */
-   _getMissingDependencies(plugins: PuppeteerExtraPlugin[]): Set<string> {
-    const pluginNames = new Set(plugins.map((p: PuppeteerExtraPlugin) => p.name))
-    const missing = new Set(this.dependencies.filter(x => !pluginNames.has(x)))
-    return missing
-  }
-
-  /**
    * Conditionally bind browser/process events to class members.
    * The idea is to reduce event binding boilerplate in plugins.
    *
