@@ -203,8 +203,8 @@ Missing plugins will be required() by puppeteer-extra.
 Example:
 
 ```javascript
-get dependencies () {
-  return new Set(['user-preferences'])
+get dependencies() {
+  return ['user-preferences']
 }
 // Will ensure the 'puppeteer-extra-plugin-user-preferences' plugin is loaded.
 ```
