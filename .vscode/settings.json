@@ -39,5 +39,7 @@
         "packages/puppeteer-extra-plugin-repl/index.d.ts": true,
         "packages/puppeteer-extra-plugin-click-and-wait/index.d.ts": true,
         "packages/puppeteer-extra-plugin-click-and-wait/index.js": true,
+        "packages/extract-stealth-evasions/index.js": true,
+        "packages/extract-stealth-evasions/index.d.ts": true,
     }
 }
