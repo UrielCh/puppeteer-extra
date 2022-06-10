@@ -14,8 +14,7 @@ puppeteer.use(plugin())
 
   // Navigate to the page that will perform the tests.
   const testUrl =
-    'https://intoli.com/blog/' +
-    'not-possible-to-block-chrome-headless/chrome-headless-test.html'
+    'https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html'
   await page.goto(testUrl)
 
   // Save a screenshot of the results.

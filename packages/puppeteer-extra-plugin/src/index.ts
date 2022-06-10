@@ -179,6 +179,15 @@ export type PuppeteerResponse = Puppeteer.Response;
   }
 
   /**
+   * Allow a plugin to define a set of options' dependencies
+   * 
+   * @returns options maps to inject to dependent plugins
+   */
+  get dependenciesOptions(): {[key: string]: any} {
+      return {};
+  }
+
+  /**
    * Plugin dependencies (optional).
    *
    * Missing plugins will be required() by puppeteer-extra.

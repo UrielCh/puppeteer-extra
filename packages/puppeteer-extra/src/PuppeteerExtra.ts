@@ -111,6 +111,12 @@ export type PluginFullName = `puppeteer-extra-plugin-${PluginName}`;
       if (plugin.requirements.has('dataFromPlugins')) {
         plugin.getDataFromPlugins = this.getPluginData.bind(this)
       }
+      const extraOptions = plugin.dependenciesOptions
+      if (extraOptions) {
+        for (const [name, options] of Object.entries(extraOptions)) {
+          this.setPluginOptions(name, options)
+        }
+      }
       plugin._register(Object.getPrototypeOf(plugin))
       this._plugins.push(plugin)
       debug('plugin registered', plugin.name)
