@@ -32,8 +32,6 @@ export type PluginName =
   | `${typeof commonPlugins[number]}`
   | `${string}`
 
-export type PluginFullName = `puppeteer-extra-plugin-${PluginName}`;
-
 /**
  * Modular plugin framework to teach `puppeteer` new tricks.
  *
@@ -95,17 +93,11 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    */
   public use(plugin: PuppeteerExtraPlugin): this {
     if (typeof plugin !== 'object' || !plugin._isPuppeteerExtraPlugin) {
-      console.error(
-        `Warning: Plugin is not derived from PuppeteerExtraPlugin, ignoring.`,
-        plugin
-      )
+      console.error(`Warning: Plugin is not derived from PuppeteerExtraPlugin, ignoring.`, plugin)
       return this
     }
     if (!plugin.name) {
-      console.error(
-        `Warning: Plugin with no name registering, ignoring.`,
-        plugin
-      )
+      console.error(`Warning: Plugin with no name registering, ignoring.`, plugin)
       return this
     }
     if (plugin.requirements.has('dataFromPlugins')) {
@@ -374,9 +366,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
         continue
       }
       // We follow a plugin naming convention, but let's rather enforce it <3
-      const fullname: PluginFullName = n.startsWith('puppeteer-extra-plugin')
-        ? n as PluginFullName
-        : `puppeteer-extra-plugin-${n}`
+      const fullname = n.startsWith('puppeteer-extra-plugin') ? n : `puppeteer-extra-plugin-${n}`
       // In case a module sub resource is requested print out the main package name
       // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
       const packageName = fullname.split('/')[0]
@@ -427,13 +417,15 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    */
   private orderPlugins(): void {
     debug('orderPlugins:before', this.pluginNames)
-    const runLast = this._plugins
-      .filter(p => p.requirements.has('runLast'))
-      .map(p => p.name)
-    for (const name of runLast) {
-      const index = this._plugins.findIndex(p => p.name === name)
-      this._plugins.push(this._plugins.splice(index, 1)[0])
+    const runFirst: PuppeteerExtraPlugin[] = []
+    const runLast: PuppeteerExtraPlugin[] = []
+    for (const p of this._plugins) {
+      if (p.requirements.has('runLast'))
+        runLast.push(p)
+      else
+        runFirst.push(p)
     }
+    this._plugins = [...runFirst, ...runLast]
     debug('orderPlugins:after', this.pluginNames)
   }
 
