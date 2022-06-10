@@ -5,7 +5,6 @@ const debug = Debug('puppeteer-extra')
 
 import merge from 'deepmerge'
 
-
 export const allAvailableEvasions = [
   'chrome.app',
   'chrome.csi',
@@ -346,48 +345,47 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @private
    */
   private resolvePluginDependencies(): void {
-    // Request missing dependencies from all plugins and flatten to a single Set
-    const missingPlugins: Set<string> = this._plugins
-      .map(p => p._getMissingDependencies(this._plugins))
-      .reduce((combined, list) => {
-        return new Set([...combined, ...list])
-      }, new Set<string>())
-    if (!missingPlugins.size) {
-      debug('no dependencies are missing')
-      return
+    const loadedPlugins = new Set<string>(this._plugins.map(p => p.name))
+    const missingPlugins = new Set<string>()
+
+    const requierDep = (plugin: PuppeteerExtraPlugin): void => {
+      plugin.dependencies.filter(p => !loadedPlugins.has(p)).forEach(dep => missingPlugins.add(dep))
     }
-    debug('dependencies missing', missingPlugins)
-    // Loop through all dependencies declared missing by plugins
-    for (let n of [...missingPlugins]) {
-      // Check if the dependency hasn't been registered as plugin already.
-      // This might happen when multiple plugins have nested dependencies.
-      if (this.pluginNames.includes(n)) {
-        debug(`ignoring dependency '${n}', which has been required already.`)
-        continue
-      }
-      // We follow a plugin naming convention, but let's rather enforce it <3
-      const fullname = n.startsWith('puppeteer-extra-plugin') ? n : `puppeteer-extra-plugin-${n}`
-      // In case a module sub resource is requested print out the main package name
-      // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
-      const packageName = fullname.split('/')[0]
-      let dep: PuppeteerExtraPlugin | null = null
-      try {
-        const req = require(fullname);
-        const shortName: PluginName = fullname.substring('puppeteer-extra-plugin-'.length);
 
-        const opts = this._pluginOptions[shortName] || undefined;
+    for (const plugin of this._plugins) {
+      requierDep(plugin)
+    }
 
-        // Try to require and instantiate the stated dependency
-        if ('default' in req) {
-          dep = req.default(opts)
-        } else {
-          dep = req(opts)
-        }
-        // Register it with `puppeteer-extra` as plugin
-        if (dep)
-          this.use(dep)
-      } catch (err) {
-        console.warn(`
+    while (missingPlugins.size) {
+      debug('dependencies missing', missingPlugins)
+      // Loop through all dependencies declared missing by plugins
+      for (let n of [...missingPlugins]) {
+        missingPlugins.delete(n)
+        // We follow a plugin naming convention, but let's rather enforce it <3
+        // export type PluginFullName = `puppeteer-extra-plugin-${PluginName}`;
+        const fullname = n.startsWith('puppeteer-extra-plugin') ? n : `puppeteer-extra-plugin-${n}`
+        // In case a module sub resource is requested print out the main package name
+        // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
+        const packageName = fullname.split('/')[0]
+        try {
+          const req = require(fullname);
+          const shortName: PluginName = fullname.substring('puppeteer-extra-plugin-'.length);
+          const opts = this._pluginOptions[shortName] || undefined;
+          let dep: PuppeteerExtraPlugin | null = null
+          // Try to require and instantiate the stated dependency
+          if ('default' in req) {
+            dep = req.default(opts)
+          } else {
+            dep = req(opts)
+          }
+          loadedPlugins.add(n)
+          // Register it with `puppeteer-extra` as plugin
+          if (dep) {
+            this.use(dep)
+            requierDep(dep)
+          }
+        } catch (err) {
+          console.warn(`
             A plugin listed '${fullname}' as dependency,
             which is currently missing. Please install it:
   
@@ -396,11 +394,8 @@ export class PuppeteerExtra implements VanillaPuppeteer {
             Note: You don't need to require the plugin yourself,
             unless you want to modify it's default settings.
             `)
-        throw err
-      }
-      // Handle nested dependencies :D
-      if (dep && dep.dependencies.length) {
-        this.resolvePluginDependencies()
+          throw err
+        }
       }
     }
   }
