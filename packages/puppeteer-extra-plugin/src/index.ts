@@ -29,7 +29,7 @@ export interface BrowserEventOptions {
   defaultArgs?: (options?: Parameters<VanillaPuppeteer['defaultArgs']>[0]) => ReturnType<VanillaPuppeteer['defaultArgs']>;
 }
 
-export type PluginDependencies = Set<string>
+export type PluginDependencies = string[]
 export type PluginRequirements = Set<'launch' | 'headful' | 'dataFromPlugins' | 'runLast'>
 
 export type ChildClassMembers = keyof PuppeteerExtraPlugin | 'constructor';
@@ -184,13 +184,13 @@ export type PuppeteerResponse = Puppeteer.Response;
    * Missing plugins will be required() by puppeteer-extra.
    *
    * @example
-   * get dependencies () {
-   *   return new Set(['user-preferences'])
+   * get dependencies() {
+   *   return ['user-preferences']
    * }
    * // Will ensure the 'puppeteer-extra-plugin-user-preferences' plugin is loaded.
    */
   get dependencies(): PluginDependencies {
-    return new Set([])
+    return []
   }
 
   /**
@@ -490,11 +490,9 @@ export type PuppeteerResponse = Puppeteer.Response;
    *
    * @private
    */
-  _getMissingDependencies(plugins: PuppeteerExtraPlugin[]): Set<string> {
+   _getMissingDependencies(plugins: PuppeteerExtraPlugin[]): Set<string> {
     const pluginNames = new Set(plugins.map((p: PuppeteerExtraPlugin) => p.name))
-    const missing = new Set(
-      Array.from(this.dependencies.values()).filter(x => !pluginNames.has(x))
-    )
+    const missing = new Set(this.dependencies.filter(x => !pluginNames.has(x)))
     return missing
   }
 

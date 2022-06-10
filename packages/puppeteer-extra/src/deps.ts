@@ -24,7 +24,7 @@ export interface BrowserEventOptions {
 }
 
 export type PluginRequirements = Set<'launch' | 'headful' | 'dataFromPlugins' | 'runLast'>
-export type PluginDependencies = Set<string>
+export type PluginDependencies = string[]
 export interface PluginData {
     name: string,
     value: {

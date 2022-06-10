@@ -37,9 +37,7 @@ test('should have opts with default values', async t => {
 
 test('should add all dependencies dynamically', async t => {
   const instance = Plugin()
-  const deps = new Set(
-    [...instance.opts.enabledEvasions].map(e => `${PLUGIN_NAME}/evasions/${e}`)
-  )
+  const deps = [...instance.opts.enabledEvasions].map(e => `${PLUGIN_NAME}/evasions/${e}`)
   t.deepEqual(instance.dependencies, deps)
 })
 
@@ -49,6 +47,6 @@ test('should add all dependencies dynamically including changes', async t => {
   instance.enabledEvasions = new Set([fakeDep])
   t.deepEqual(
     instance.dependencies,
-    new Set([`${PLUGIN_NAME}/evasions/${fakeDep}`])
+    [`${PLUGIN_NAME}/evasions/${fakeDep}`]
   )
 })

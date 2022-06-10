@@ -119,10 +119,8 @@ class StealthPlugin extends PuppeteerExtraPlugin<PluginOptions> {
    *
    * @private
    */
-  get dependencies(): Set<`stealth/evasions/${KnownEvasions}`> {
-    return new Set<`stealth/evasions/${KnownEvasions}`>(
-      [...this.opts.enabledEvasions].map((e: KnownEvasions) => `${this.name}/evasions/${e}`) as `stealth/evasions/${KnownEvasions}`[]
-    )
+  get dependencies(): Array<`stealth/evasions/${KnownEvasions}`> {
+    return [...this.opts.enabledEvasions].map((e) => `stealth/evasions/${e}` as `stealth/evasions/${KnownEvasions}`)
   }
   /**
    * Get all available evasions.

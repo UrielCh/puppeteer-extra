@@ -349,11 +349,11 @@ export type PluginFullName = `puppeteer-extra-plugin-${PluginName}`;
      */
     private resolvePluginDependencies(): void {
       // Request missing dependencies from all plugins and flatten to a single Set
-      const missingPlugins = this._plugins
+      const missingPlugins: Set<string> = this._plugins
         .map(p => p._getMissingDependencies(this._plugins))
         .reduce((combined, list) => {
           return new Set([...combined, ...list])
-        }, new Set())
+        }, new Set<string>())
       if (!missingPlugins.size) {
         debug('no dependencies are missing')
         return
@@ -403,7 +403,7 @@ export type PluginFullName = `puppeteer-extra-plugin-${PluginName}`;
           throw err
         }
         // Handle nested dependencies :D
-        if (dep && dep.dependencies.size) {
+        if (dep && dep.dependencies.length) {
           this.resolvePluginDependencies()
         }
       }
