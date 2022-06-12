@@ -19,7 +19,7 @@ test('vanilla: sourceurl is leaking', async t => {
   // Error: Test Error at test (file:///home/runner/work/puppeteer-extra-ts/puppeteer-extra-ts/packages/puppeteer-extra-plugin-stealth/evasions/sourceurl/_fixtures/test.html:13:21)
   // at HTMLDocument.querySelector (file:///home/runner/work/puppeteer-extra-ts/puppeteer-extra-ts/packages/puppeteer-extra-plugin-stealth/evasions/sourceurl/_fixtures/test.html:25:13)
   // at __puppeteer_evaluation_script__:1:17
-  t.regex(result, /^FAIL/, 'must fail with a stack containing __puppeteer_evaluation_script__')
+  t.regex(result, /^_FAIL/, 'must fail with a stack containing __puppeteer_evaluation_script__')
   const result2 = await page.evaluate(() => {
     try {
       Function.prototype.toString.apply({})
@@ -47,6 +47,11 @@ test('stealth: sourceurl is not leaking', async t => {
   // at HTMLDocument.querySelector (file:///home/runner/work/puppeteer-extra-ts/puppeteer-extra-ts/packages/puppeteer-extra-plugin-stealth/evasions/sourceurl/_fixtures/test.html:25:13)
   // at :1:17
   // TODO: fix that evasion
+
+  // Error: Test Error at test (file:///home/runner/work/puppeteer-extra-ts/puppeteer-extra-ts/packages/puppeteer-extra-plugin-stealth/evasions/sourceurl/_fixtures/test.html:13:21)
+  // at HTMLDocument.querySelector (file:///home/runner/work/puppeteer-extra-ts/puppeteer-extra-ts/packages/puppeteer-extra-plugin-stealth/evasions/sourceurl/_fixtures/test.html:25:13)
+  // at pptr://__puppeteer_evaluation_script__:1:17'
+
   t.regex(result, /^PASS/, 'must pass')
   const result2 = await page.evaluate(() => {
     try {
