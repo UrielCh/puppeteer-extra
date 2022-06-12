@@ -89,7 +89,7 @@ test('stealth headless: as vanilla headful', async t => {
   t.deepEqual(result, {
     state: 'denied',
     onchange: null,
-    permission: 'denied'
+    permission: 'denied' // get 'default' ?
   })
 
   await page.goto('https://github.com', {
