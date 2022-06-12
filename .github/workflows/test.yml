@@ -26,9 +26,8 @@ jobs:
     strategy:
       matrix:
         node:
-          - 15
-          # - 14
-          - 12
+          - 18
+          - 16
         puppeteer_version:
           - 10.2.0 # Chromium 93.0.4577.0
           # - 7.0.0 # Chromium 90.0.4403.0, Feb 3, 2021
