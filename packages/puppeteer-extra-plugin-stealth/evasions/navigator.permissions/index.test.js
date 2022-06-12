@@ -92,7 +92,7 @@ test('stealth headless: as vanilla headful', async t => {
     permission: 'denied' // get 'default' ?
   })
 
-  await page.goto('https://github.com', {
+  await page.goto('https://example.com', {
     waitUntil: 'domcontentloaded'
   })
 
