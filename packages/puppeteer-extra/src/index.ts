@@ -56,7 +56,7 @@ interface BrowserInternals extends Browser {
  * ;(async () => {
  *   const browser = await puppeteer.launch({headless: false})
  *   const page = await browser.newPage()
- *   await page.goto('http://example.com', {waitUntil: 'domcontentloaded'})
+ *   await page.goto('https://github.com/', {waitUntil: 'domcontentloaded'})
  *   await browser.close()
  * })()
  */
