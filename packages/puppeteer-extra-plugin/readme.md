@@ -97,7 +97,7 @@ puppeteer.use(require('./hello-world-plugin')())
 ;(async () => {
   const browser = await puppeteer.launch({ headless: false })
   const page = await browser.newPage()
-  await page.goto('http://example.com', { waitUntil: 'domcontentloaded' })
+  await page.goto('https://github.com/berstend/puppeteer-extra', { waitUntil: 'domcontentloaded' })
   await browser.close()
 })()
 ```
