@@ -42,9 +42,9 @@ jobs:
           # - 1.6.2 # Chromium 69.0.3494.0, Aug 1, 2018
 
         os:
-          - ubuntu-latest
-    #           - macOS-latest
-    # - windows-latest
+    #     - ubuntu-latest
+    #     - macOS-latest
+         - windows-latest
 
     steps:
       - name: Checkout
@@ -55,8 +55,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: 'Fix for: error fsevents@2.1.2: The platform "linux" is incompatible with this module.'
-        run: npx json -I -f package.json -e 'this.resolutions={}'
+      #- name: 'Fix for: error fsevents@2.1.2: The platform "linux" is incompatible with this module.'
+      #  run: npx json -I -f package.json -e 'this.resolutions={}'
 
       - name: yarn install
         uses: bahmutov/npm-install@v1
