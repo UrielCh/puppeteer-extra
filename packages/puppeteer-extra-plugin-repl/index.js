@@ -25,7 +25,7 @@ const REPLSession = require('./lib/REPLSession')
  *
  * puppeteer.launch({ headless: true }).then(async browser => {
  *   const page = await browser.newPage()
- *   await page.goto('https://example.com')
+ *   await page.goto('https://github.com')
  *
  *   // Start an interactive REPL here with the `page` instance.
  *   await repl.repl(page)

@@ -47,7 +47,7 @@ test('vanilla headful: as expected', async t => {
     permission: 'denied'
   })
 
-  await page.goto('https://example.com', {
+  await page.goto('https://github.com', {
     waitUntil: 'domcontentloaded'
   })
   const result2 = await page.evaluate(getNotificationPermission)
@@ -69,7 +69,7 @@ test('vanilla headless: as expected', async t => {
     permission: 'denied'
   })
 
-  await page.goto('https://example.com', {
+  await page.goto('https://github.com', {
     waitUntil: 'domcontentloaded'
   })
 
@@ -92,7 +92,7 @@ test('stealth headless: as vanilla headful', async t => {
     permission: 'denied'
   })
 
-  await page.goto('https://example.com', {
+  await page.goto('https://github.com', {
     waitUntil: 'domcontentloaded'
   })
 

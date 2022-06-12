@@ -526,7 +526,7 @@ export class RecaptchaContentScript {
             "height": 28,
             "theme": null
         },
-        "url": "https://example.com",
+        "url": "https://github.com",
         "hasResponseElement": true
     }],
     "error": null

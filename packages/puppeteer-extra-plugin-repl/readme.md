@@ -33,7 +33,7 @@ puppeteer.use(require('puppeteer-extra-plugin-repl')())
 
 puppeteer.launch({ headless: true }).then(async browser => {
   const page = await browser.newPage()
-  await page.goto('https://example.com')
+  await page.goto('https://github.com')
 
   // Start an interactive REPL here with the `page` instance.
   await page.repl()
@@ -48,7 +48,7 @@ In the REPL session (hit `tab` two times to see all available properties):
 
 ```es6
 > page.url()
-// => https://example.com
+// => https://github.com
 > page.click('a')
 > page.url()
 // => https://www.iana.org/domains/reserved
@@ -103,7 +103,7 @@ puppeteer.use(repl)
 
 puppeteer.launch({ headless: true }).then(async browser => {
   const page = await browser.newPage()
-  await page.goto('https://example.com')
+  await page.goto('https://github.com')
 
   // Start an interactive REPL here with the `page` instance.
   await repl.repl(page)

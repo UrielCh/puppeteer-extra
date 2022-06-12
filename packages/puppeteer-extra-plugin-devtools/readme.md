@@ -36,7 +36,7 @@ puppeteer
     console.log(tunnel.url)
 
     const page = await browser.newPage()
-    await page.goto('https://example.com')
+    await page.goto('https://github.com')
     console.log('All setup.')
   })
 ```

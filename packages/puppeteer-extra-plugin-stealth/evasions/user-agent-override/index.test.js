@@ -312,7 +312,7 @@ test('stealth: test if UA hints are correctly set - Windows 10 Generic', async t
     return
   }
   const page = await browser.newPage()
-  await page.goto('https://example.com') // secure context
+  await page.goto('https://github.com') // secure context
 
   const results = await page.evaluate(userAgentData)
   t.is(results.platform, 'Windows')

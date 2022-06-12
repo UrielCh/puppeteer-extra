@@ -12,7 +12,9 @@ const { errors } = require('puppeteer')
 test('vanilla: videoCard is Google Inc', async t => {
   const pageFn = async page => await page.evaluate(() => window.chrome) // eslint-disable-line
   const { videoCard } = await getVanillaFingerPrint(pageFn)
-  t.deepEqual(videoCard, ['Google Inc.', 'Google SwiftShader'])
+  t.truthy(videoCard.length === 2, 'videoCard should be an array of 2 elements')
+  t.regex(videoCard[0], /Google/, 'should be an Google Inc. card')
+  // videoCard[1] is pptr version dependent
 })
 
 test('stealth: videoCard is Intel Inc', async t => {
