@@ -32,7 +32,7 @@ test('can work with puppeteer-firefox', async t => {
   const page = await browser.newPage()
   await page.goto('https://github.com')
   const title = await page.title()
-  t.true(title && title.toLowerCase().includes('example domain'))
+  t.true(title && title.includes('GitHub'))
   await browser.close()
   t.true(true)
 })
